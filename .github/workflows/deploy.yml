@@ -30,24 +30,10 @@ jobs:
           node-version: 16
           cache: npm
 
-      - uses: getsentry/action-release@v1
-        env:
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
-          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
-        with:
-          environment: production
-          ignore_empty: true
 
       - run: |
           npm ci
-          npm run crowdin upload
-          npm run crowdin download
           npm run ghbuild
-        env:
-          api_token: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
-          REACT_APP_FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
-          REACT_APP_FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
 
       - uses: actions/upload-pages-artifact@v1
         with:
